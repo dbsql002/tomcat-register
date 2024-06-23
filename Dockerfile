@@ -1,6 +1,5 @@
-# 빌드 스테이지에서 최소한의 패키지만 설치하여 Tomcat을 준비합니다.
+# 빌드 스테이지
 FROM alpine:latest as builder
-
 # 필수 패키지 설치 및 Tomcat 다운로드
 RUN apk add --no-cache openjdk8 curl tar && \
     curl -O https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz && \
@@ -31,7 +30,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $JAVA_HOME/bin:$CATALINA_HOME/bin:$PATH
 
-# 빌드 스테이지에서 Tomcat 파일 복사
+# 빌드 스테이지에서 Tomcat 파일 복사 (lib 디렉토리 포함)
 COPY --from=builder /usr/local/tomcat /usr/local/tomcat
 
 # 포트 노출
